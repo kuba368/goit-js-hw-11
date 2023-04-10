@@ -1,0 +1,12 @@
+.gallery {
+    display: flex;
+    gap: 10px;
+    padding-top: 65px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.load-more {
+    width: 50%;
+    bottom: 5px;
+}

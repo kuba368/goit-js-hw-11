@@ -1,0 +1,16 @@
+.photo-card {
+    width: 320px;
+    border: 1px solid;
+    overflow: hidden;
+    .info {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+    }
+    img {
+    width: 100%;
+    }
+    b {
+        font-weight: bold;
+    }
+}
