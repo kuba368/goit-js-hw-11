@@ -13,7 +13,6 @@ let lightbox = new SimpleLightbox('.gallery a');
 
 let page = 1;
 let input = '';
-let currentHits = 0;
 export const PHOTOS_PER_PAGE = 40;
 
 searchForm.addEventListener('submit', async e => {
@@ -45,10 +44,11 @@ searchForm.addEventListener('submit', async e => {
 loadMoreButton.addEventListener('click', async () => {
   page += 1;
   const data = await fetchPhotos(searchQuery, page);
-  createPhotoCardMarkup(data.hits);
+  data.hits.forEach(photo => {
+    gallery.insertAdjacentHTML('beforeend', createPhotoCardMarkup(photo));
+  });
   lightbox.refresh();
-  currentHits += data.hits.length;
-  if (currentHits === data.totalHits) {
+  if (data.hits.length === data.totalHits) {
     loadMoreButton.classList.add('is-hidden');
   }
 });
