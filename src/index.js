@@ -13,12 +13,13 @@ let lightbox = new SimpleLightbox('.gallery a');
 
 let page = 1;
 let input = '';
+let currentHits = 0;
 export const PHOTOS_PER_PAGE = 40;
 
 searchForm.addEventListener('submit', async e => {
   e.preventDefault();
-  input = searchQuery.value;
   page = 1;
+  input = searchQuery.value;
   window.scroll(0, 0);
   const data = await fetchPhotos(input);
   gallery.innerHTML = '';
@@ -30,27 +31,24 @@ searchForm.addEventListener('submit', async e => {
   }
   Notify.success(`Hooray! We found ${data.totalHits} images.`);
   data.hits.forEach(photo => {
-    gallery.insertAdjacentHTML('afterend', createPhotoCardMarkup(photo));
+    gallery.insertAdjacentHTML('beforeend', createPhotoCardMarkup(photo));
   });
   lightbox.refresh();
+  if (data.totalHits > PHOTOS_PER_PAGE) {
+    loadMoreButton.classList.remove('is-hidden');
+  } else {
+    loadMoreButton.classList.add('is-hidden');
+  }
 });
 
 // //Load More Button
-// loadMoreButton.classList.add('is-hidden');
-
-// if (data.total > PHOTOS_PER_PAGE) {
-//   loadMoreButton.classList.remove('is-hidden');
-// }
-
-// loadMoreButton.addEventListener('click', async () => {
-//   page++;
-//   const data = await fetchPhotos(searchQuery.value, page);
-//   data.hits.forEach(photo => {
-//     gallery.insertAdjacentHTML('beforeend', createPhotoCardMarkup(photo));
-//   });
-//   lightbox.refresh();
-//   if (page * PHOTOS_PER_PAGE >= data.total) {
-//     loadMoreButton.classList.add('is-hidden');
-//     Notify.info("We're sorry, but you've reached the end of search results.");
-//   }
-// });
+loadMoreButton.addEventListener('click', async () => {
+  page += 1;
+  const data = await fetchPhotos(searchQuery, page);
+  createPhotoCardMarkup(data.hits);
+  lightbox.refresh();
+  currentHits += data.hits.length;
+  if (currentHits === data.totalHits) {
+    loadMoreButton.classList.add('is-hidden');
+  }
+});

@@ -7,6 +7,12 @@
     flex-wrap: wrap;
 }
 .load-more {
-    width: 50%;
-    bottom: 5px;
+    width: 30%;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    display: flex;
+    position: relative;
+    bottom: -15px;
 }
