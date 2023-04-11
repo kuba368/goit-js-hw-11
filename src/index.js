@@ -43,7 +43,6 @@ searchForm.addEventListener('submit', async e => {
 // //Load More Button
 loadMoreButton.addEventListener('click', async () => {
   page += 1;
-  lightbox.destroy();
   const data = await fetchPhotos(input, page);
   data.hits.forEach(photo => {
     gallery.insertAdjacentHTML('beforeend', createPhotoCardMarkup(photo));
